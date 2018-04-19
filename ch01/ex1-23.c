@@ -3,15 +3,18 @@
 #define OUT 0
 
 int main(void){
-     int c,i,quote = OUT;
+     int c,quote = OUT;
 
      while ( (c = getchar()) != EOF ){
-          if ( c == '\"' )    // if there is a double quote
+          if ( c == '\\'){         // check for quotes used with escape sequences i.e \"
+               if ( ( c = getchar() ) == '\"' )
+                    printf("\\\"");
+          } else if ( c == '\"' )  // if there is no escape sequence use
                quote++;
-          if ( quote % 2 )    // if there is a odd number ( only 1 ) quote
+          if ( quote % 2 )
                quote = IN;
-          else
-               quote = OUT;   // if even number of quote
+          else 
+               quote = OUT;
           if ( c == '/' && quote == OUT){    // check for comments if it is out of a quote
                switch( c = getchar() ){      // get another character
                     case '/':                // single line quote, ignore until newline 
